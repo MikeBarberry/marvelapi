@@ -1,0 +1,160 @@
+/*cra css styled for root divs in render */
+.Home {
+  text-align: center;
+}
+
+.Home-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+/* add to all images */
+img {
+  cursor: pointer;
+}
+
+/* hero list from db */
+.hero-list add-list {
+  margin: 2rem;
+}
+
+.card {
+  text-align: center;
+  border: grey solid 1px;
+  padding: 1rem;
+  width: 15rem;
+  height: 25rem;
+  display: inline-grid;
+  margin: 1rem 2rem;
+  opacity: .9;
+  box-shadow: 3px 4px #e04b52;
+}
+
+
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 0.20em;
+  margin-bottom: 0.20em;
+}
+
+.hero-image {
+  justify-self: center;
+  height: 12rem;
+  width: auto;
+  border-radius: 15px;
+}
+
+.hero-image:hover {
+  opacity: 0.8;
+  transform: scale(1.2);
+}
+
+.description {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+  justify-content: center;
+  color: grey;
+  opacity: .7;
+  display: inline;
+}
+
+.button {
+  width: 7rem;
+  height: 2rem;
+  justify-self: center;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.button:hover {
+  font-weight: 600;
+}
+
+/* add page */
+.add-container {
+  background-image: url("./add.jpeg");
+  min-height: 700px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.form {
+  position: absolute;
+  right: 0;
+  margin: 20px;
+  max-width: 300px;
+  padding: 16px;
+  background-color: white;
+}
+
+input[type=text] {
+  width: 96%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background:antiquewhite;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type=submit] {
+  background-color: #404040;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  opacity: .9;
+}
+
+input[type=submit]:hover {
+  opacity: 1;
+}
+
+/* edit page */
+
+.edit-container {
+  min-height: 700px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  min-width: 680px;
+  max-width: 750px;
+}
+
+.edit-button {
+  background-color: #404040;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  opacity: .9;
+}
+
+.edit-button:hover {
+  opacity: 1;
+}
+
+/* loader */
+.loader {
+  width: "100%";
+  height: "100";
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+}
