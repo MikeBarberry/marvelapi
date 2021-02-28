@@ -5,6 +5,9 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const bodyParser = require("body-parser")
 
+// for heroku
+const path = require('path')
+
 const hero = require("./routes/api/hero")
 
 const app = express()
