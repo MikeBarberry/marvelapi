@@ -19,6 +19,16 @@ app.use(cors())
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
+//build 
+
+// Client build
+app.use(express.static(path.join(__dirname, "../client/build")))
+
+// Routes
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"))
+})
+
 //routes
 app.get("/ping", (req, res) => {
   return res.send("pong")
