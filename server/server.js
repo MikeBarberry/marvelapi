@@ -21,7 +21,7 @@ app.use(cors())
 
 // db connnect
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://mikebarberry:cZZ00nmiP21*@marvel-api.c0k3o.mongodb.net/marvel-api', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // build
 app.use(express.static(path.join(__dirname, "../client/build")))
