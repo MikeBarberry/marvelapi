@@ -40,7 +40,7 @@ app.get(
 app.use("/api/hero", hero)
 
 // Start server
-const port = process.env.PORT 
+const port = process.env.PORT || 3001
 app.listen(port, () => {
     console.log(`Marvel API server running on PORT: ${port}`)
 })
