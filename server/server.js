@@ -1,13 +1,16 @@
-/* const dotenv = require("dotenv")
-dotenv.config( {path:'../.env'} )  */
+/* hide for heroku deploy; show for dev 
+ const dotenv = require("dotenv")
+dotenv.config( {path:'../.env'} )  
+*/
+
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 const bodyParser = require("body-parser")
 
-// for heroku
+// added for heroku deploy 
 const path = require('path')
-// 
+//
 
 const hero = require("./routes/api/hero")
 
@@ -20,10 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
 
 // db connnect
-
 mongoose.connect('mongodb+srv://mikebarberry:cZZ00nmiP21*@marvel-api.c0k3o.mongodb.net/marvel-api', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// build
+// build for heroku; hide for dev 
 app.use(express.static(path.join(__dirname, "../client/build")))
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"))
