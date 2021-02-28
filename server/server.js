@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
 
 // db connnect
-mongoose.connect('mongodb+srv://mikebarberry:cZZ00nmiP21*@marvel-api.c0k3o.mongodb.net/marvel-api', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // build for heroku; hide for dev 
 app.use(express.static(path.join(__dirname, "../client/build")))
