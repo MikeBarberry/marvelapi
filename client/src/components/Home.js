@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from "styled-components";
-import marvel from '../marvel.jpeg';
+import marvel from '../assets/marvel.jpeg';
 import { Link } from 'react-router-dom';
 import LoadIndicator from './LoadIndicator'
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import marvel from '../marvel.jpeg';
+import marvel from '../assets/marvel.jpeg';
 import axios from 'axios';
 import LoadIndicator from './LoadIndicator'
 
@@ -76,7 +76,7 @@ class Edit extends React.Component {
                         Change Thumbnail: 
                         <input
                             name="editThumbnail"
-                            type="text"
+                            type="url"
                             onChange={(event) => this.handleUserInput(event)} 
                             value={this.state.editThumbnail} 
                             required />

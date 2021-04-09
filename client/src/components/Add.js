@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import marvel from '../marvel.jpeg';
+import marvel from '../assets/marvel.jpeg';
 
 class Add extends React.Component {
     constructor(props) {

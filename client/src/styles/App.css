@@ -1,4 +1,4 @@
-/*cra css styled for root divs in render */
+/*create react app css styled for root divs in render */
 .Home {
   text-align: center;
 }
@@ -79,7 +79,7 @@ h2 {
 
 /* add page */
 .add-container {
-  background-image: url("./add.jpeg");
+  background-image: url("../assets/add.jpeg");
   min-height: 700px;
   background-position: center;
   background-repeat: no-repeat;
@@ -97,6 +97,15 @@ h2 {
 }
 
 input[type=text] {
+  width: 96%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background:antiquewhite;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type=url] {
   width: 96%;
   padding: 15px;
   margin: 5px 0 22px 0;

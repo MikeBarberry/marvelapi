@@ -3,7 +3,7 @@ import { HashRouter as Router, Route} from 'react-router-dom'
 import Home from './components/Home'
 import Add from './components/Add'
 import Edit from './components/Edit'
-import './App.css';
+import './styles/App.css';
 
 function App() {
   return (
