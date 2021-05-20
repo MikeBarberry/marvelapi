@@ -1,24 +1,31 @@
-// hide for heroku deploy; show for dev 
-const NODE_ENV = "development"
+// conditionals are for heroku production deployment and development 
 
+const NODE_ENV = "development"
 if (NODE_ENV === "development") {
   const dotenv = require("dotenv")
   dotenv.config( {path:'../.env'} )
 }
 
 const express = require("express")
-const mongoose = require("mongoose")
-const cors = require("cors")
 const path = require('path')
+const cors = require("cors")
+const mongoose = require("mongoose")
+
 const hero = require("./routes/api/hero")
 
 const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+.then((database) => {
+  console.log("Successfully connected to: " + database.connections[0].host)
+})
+.catch((err) => {
+  console.log("Error connecting to database: " + err)
+})
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "100mb", }));
 
 if (NODE_ENV == "production") {
   app.use(express.static(path.join(__dirname, "../client/build")))
@@ -30,8 +37,8 @@ if (NODE_ENV == "production") {
 app.get("/ping", (req, res) => {
   return res.send("pong")
 })
-app.use("/api/hero", hero)
 
+app.use("/api/hero", hero)
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {

@@ -32,23 +32,27 @@ class Home extends React.Component {
             loading: true,
         }
     }
+
     handleClick = (e) => {
         const id = e.target.id;
         localStorage.setItem("id", id);
     }
+
     toggleHidden = () => {
         this.setState({
             isHidden: !this.state.isHidden
         })
     }
+
     componentDidMount() {
-        axios.post("/api/hero/hero_list").then(res => {
+        axios.post("/api/hero/index").then(res => {
             this.setState({ 
                 heroes: res.data,
                 loading: false,
             })
         })
     }
+  
     render() {
         return(
             <div className="Home Home-header">
@@ -59,19 +63,18 @@ class Home extends React.Component {
                 {this.state.loading ? <LoadIndicator /> :
                     <div className="hero-list">
                         {this.state.heroes.map(hero => 
-                            <div class="card">
+                            <div className="card" key={hero._id}>
                                 <h2>{hero.name}</h2>
-                                <img src={hero.thumbnail} alt="hero" class="hero-image" onClick={this.toggleHidden}></img> 
-                                {!this.state.isHidden ? <p class="description">{hero.description}</p> : null }
+                                <img src={hero.thumbnail} alt="hero" className="hero-image" onClick={this.toggleHidden}></img> 
+                                {!this.state.isHidden ? <p className="description">{hero.description}</p> : null }
                                 <Link to="/edit">
-                                    <button class="button" id={hero._id} onClick={this.handleClick}>Edit</button>
+                                    <button className="button" id={hero._id} onClick={this.handleClick}>Edit</button>
                                 </Link>
                             </div>
                         )}
                     </div>
                 }
-            </div>
-                      
+            </div>         
         )
     }
 }

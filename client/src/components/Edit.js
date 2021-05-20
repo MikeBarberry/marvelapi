@@ -1,7 +1,8 @@
 import React from 'react';
-import marvel from '../assets/marvel.jpeg';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import LoadIndicator from './LoadIndicator'
+import marvel from '../assets/marvel.jpeg';
 
 
 class Edit extends React.Component {
@@ -13,6 +14,7 @@ class Edit extends React.Component {
             editDescription: '',
             editThumbnail: '',
             loading: true, 
+            submitted: false
         }
     }
     componentWillMount() {
@@ -20,48 +22,58 @@ class Edit extends React.Component {
             hero_id: localStorage.getItem('id')
         })
     }
+
     componentDidMount() {
-        axios.post('api/hero/getThumbnail', {
-            hero_id: this.state.hero_id,
-        }).then(res => this.setState({
-            background_thumbnail: res.data["thumbnail"],
-            loading: false, 
-        }))
+        axios
+            .post('/api/hero/getThumbnail', { hero_id: this.state.hero_id })
+            .then(res => this.setState({
+                background_thumbnail: res.data["thumbnail"],
+                loading: false, 
+            }))
+            .catch(err => console.log(err));
     }
+
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
+
         const editHero = {
             hero_id: this.state.hero_id,
             description: this.state.editDescription,
             thumbnail: this.state.editThumbnail,
         }
-        axios.post('api/hero/edit',  editHero )
-        .then(res => {
-            console.log(res)
-            console.log(res.data)
-        })
-        .catch(err => console.log(err));
-        window.location = "/"
+
+        axios
+            .post('/api/hero/edit',  editHero)
+            .then(() => this.setState({
+                submitted: true
+            }))
+            .catch(err => console.log(err));
     }
+
     handleDelete = (e) => {
         e.preventDefault();
-        axios.post('api/hero/delete', {
-            hero_id: this.state.hero_id,
-        })
-        .then(res => { console.log(res) })
-        window.location = "/"
+        axios
+            .post('/api/hero/delete', { hero_id: this.state.hero_id })
+            .then(() => this.setState({
+                submitted: true
+            })
+            )
+            .catch(err => console.log(err));
     }
+
     render() {
+        if (this.state.submitted) return <Redirect to="/" />
         return(
             <div className="Home Home-header">
                 <img src={marvel} alt="Marvel" />
                 {this.state.loading ? <LoadIndicator /> :
-                    <div class="edit-container" style={{ backgroundImage: `url(${this.state.background_thumbnail})` }} >
+                    <div className="edit-container" style={{ backgroundImage: `url(${this.state.background_thumbnail})` }} >
                         <form onSubmit={this.handleSubmit}>
                         <label htmlFor="editDescription">
                         Edit Hero Description: 
@@ -85,7 +97,7 @@ class Edit extends React.Component {
                             type='submit'
                         />
                         </form> 
-                        <button class="edit-button" onClick={this.handleDelete}>Delete</button>
+                        <button className="edit-button" onClick={this.handleDelete}>Delete</button>
                     </div>
                 }           
             </div>

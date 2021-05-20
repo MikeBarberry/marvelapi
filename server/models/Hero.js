@@ -1,6 +1,8 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+const { nanoid } = require('../config.js')
+
 const HeroSchema = new Schema (
     {
         name: {
@@ -12,6 +14,10 @@ const HeroSchema = new Schema (
         thumbnail: {
             type: String,
         },
+        shortID: {
+            type: String,
+            default: () => nanoid()
+        }
     },
     { autoIndex: true },
 )

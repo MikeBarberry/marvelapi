@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import marvel from '../assets/marvel.jpeg';
 
@@ -10,13 +11,16 @@ class Add extends React.Component {
             name: '',
             description: '',
             thumbnail: '',
+            submitted: false
         }
     }
+
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
         const hero = {
@@ -24,15 +28,16 @@ class Add extends React.Component {
             description: this.state.description,
             thumbnail: this.state.thumbnail,
         }
-        axios.post('api/hero/add_hero',  hero )
-        .then(res => {
-            console.log(res)
-            console.log(res.data)
-        })
-        .catch(err => console.log(err));
-        window.location = "/"
+        axios
+            .post('/api/hero/add', hero)
+            .then(() => this.setState({
+                submitted: true
+            }))
+            .catch(err => console.log(err));
     }
+    
     render() {
+        if (this.state.submitted) return <Redirect to="/" />
         return(
             <div className="Home Home-header">
                 <img src={marvel} alt="Marvel" />

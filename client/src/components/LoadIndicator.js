@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner';
 class LoadIndicator extends React.Component {
     render() {
         return(
-            <div class="loader">
+            <div className="loader">
                 <Loader type="ThreeDots" color="white" height="100" width="100" />
             </div>
         )
