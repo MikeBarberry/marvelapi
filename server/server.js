@@ -1,6 +1,5 @@
-// conditionals are for heroku production deployment and development 
+const NODE_ENV = "production"
 
-const NODE_ENV = "development"
 if (NODE_ENV === "development") {
   const dotenv = require("dotenv")
   dotenv.config( {path:'../.env'} )
