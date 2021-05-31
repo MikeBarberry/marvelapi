@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-const { nanoid } = require('../config.js')
+const { nanoid } = require('../config/nano')
 
 const HeroSchema = new Schema (
     {
