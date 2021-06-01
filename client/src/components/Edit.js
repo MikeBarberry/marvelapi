@@ -28,6 +28,8 @@ class Edit extends React.Component {
             .post('/api/hero/getThumbnail', { hero_id: this.state.hero_id })
             .then(res => this.setState({
                 background_thumbnail: res.data["thumbnail"],
+                editDescription: res.data["description"],
+                editThumbnail: res.data["thumbnail"],
                 loading: false, 
             }))
             .catch(err => console.log(err));
@@ -67,6 +69,20 @@ class Edit extends React.Component {
             .catch(err => console.log(err));
     }
 
+    clearThumbnail = (e) => {
+        e.preventDefault();
+        this.setState({
+            editThumbnail: ""
+        })
+    }
+
+    clearDescription = (e) => {
+        e.preventDefault();
+        this.setState({
+            editDescription: ""
+        })
+    }
+
     render() {
         if (this.state.submitted) return <Redirect to="/" />
         return(
@@ -77,6 +93,7 @@ class Edit extends React.Component {
                         <form onSubmit={this.handleSubmit}>
                         <label htmlFor="editDescription">
                         Edit Hero Description: 
+                        <span><button className="clearButton" onClick={this.clearDescription}>Clear</button></span>
                         <input
                             name="editDescription"
                             type="text"
@@ -84,8 +101,10 @@ class Edit extends React.Component {
                             value={this.state.editDescription} 
                             required />
                         </label>
+
                         <label htmlFor="editThumbnail">
                         Change Thumbnail: 
+                        <span><button className="clearButton" onClick={this.clearThumbnail}>Clear</button></span>
                         <input
                             name="editThumbnail"
                             type="url"
@@ -93,6 +112,7 @@ class Edit extends React.Component {
                             value={this.state.editThumbnail} 
                             required />
                         </label>
+
                         <input
                             type='submit'
                         />

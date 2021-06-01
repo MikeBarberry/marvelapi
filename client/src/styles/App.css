@@ -159,6 +159,17 @@ input[type=submit]:hover {
   opacity: 1;
 }
 
+.clearButton {
+    float: right;
+    background: rgba(235,47,150, 0.5);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.clearButton:hover {
+    cursor: pointer;
+}
+
 /* loader */
 .loader {
   width: "100%";

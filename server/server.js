@@ -1,12 +1,5 @@
-/* const NODE_ENV = "development"
-
-if (NODE_ENV === "development") {
-  const dotenv = require("dotenv")
-  dotenv.config( {path:'../.env'} )
-} */
-
 const dotenv = require("dotenv")
-dotenv.config({ path: '../.env' })
+dotenv.config()
 
 const express = require("express")
 const path = require('path')
@@ -17,8 +10,10 @@ const hero = require("./routes/api/hero")
 
 const app = express()
 
+const db = require("./config/keys").mongoURI
+
 mongoose
-    .connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then((database) => {
         console.log("Successfully connected to: " + database.connections[0].host)
     })
