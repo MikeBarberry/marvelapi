@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { Form, Input, Button } from 'antd';
 import LoadIndicator from './LoadIndicator'
 import marvel from '../assets/marvel.jpeg';
-
 
 class Edit extends React.Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class Edit extends React.Component {
             editDescription: '',
             editThumbnail: '',
             loading: true, 
-            submitted: false
+            submitted: false,
         }
     }
     componentWillMount() {
@@ -41,21 +41,19 @@ class Edit extends React.Component {
         this.setState({[name]: value});
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-
-        const editHero = {
-            hero_id: this.state.hero_id,
-            description: this.state.editDescription,
-            thumbnail: this.state.editThumbnail,
-        }
+    onFinish = (form_values) => {
+        const { hero_id } = this.state
+        const request = { hero_id: hero_id, ...form_values }
 
         axios
-            .post('/api/hero/edit',  editHero)
-            .then(() => this.setState({
-                submitted: true
-            }))
+            .post('/api/hero/edit',  request)
+            .then(() => {
+                this.setState({
+                    submitted: true
+                })
+            })
             .catch(err => console.log(err));
+
     }
 
     handleDelete = (e) => {
@@ -90,33 +88,25 @@ class Edit extends React.Component {
                 <img src={marvel} alt="Marvel" />
                 {this.state.loading ? <LoadIndicator /> :
                     <div className="edit-container" style={{ backgroundImage: `url(${this.state.background_thumbnail})` }} >
-                        <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="editDescription">
-                        Edit Hero Description: 
-                        <span><button className="clearButton" onClick={this.clearDescription}>Clear</button></span>
-                        <input
-                            name="editDescription"
-                            type="text"
-                            onChange={(event) => this.handleUserInput(event)}
-                            value={this.state.editDescription} 
-                            required />
-                        </label>
-
-                        <label htmlFor="editThumbnail">
-                        Change Thumbnail: 
-                        <span><button className="clearButton" onClick={this.clearThumbnail}>Clear</button></span>
-                        <input
-                            name="editThumbnail"
-                            type="url"
-                            onChange={(event) => this.handleUserInput(event)} 
-                            value={this.state.editThumbnail} 
-                            required />
-                        </label>
-
-                        <input
-                            type='submit'
-                        />
-                        </form> 
+                        <Form onFinish={this.onFinish} >
+                            <Form.Item
+                                name="description"
+                                label="Edit Hero Description"
+                                initialValue={this.state.editDescription}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Form.Item 
+                                name="thumbnail"
+                                label="Change Thumbnail"
+                                initialValue={this.state.editThumbnail}
+                            >
+                                <Input type="url" />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button className="edit-button" type="primary" htmlType="submit">Submit</Button>
+                            </Form.Item>
+                        </Form>
                         <button className="edit-button" onClick={this.handleDelete}>Delete</button>
                     </div>
                 }           

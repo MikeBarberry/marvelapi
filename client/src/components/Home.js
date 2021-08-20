@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from "styled-components";
 import marvel from '../assets/marvel.jpeg';
 import { Link } from 'react-router-dom';
+import Card from './Card'
 import LoadIndicator from './LoadIndicator'
 
 const Button = styled.button`
@@ -58,27 +59,23 @@ class Home extends React.Component {
             <div className="Home Home-header">
                 <img src={marvel} alt="Marvel" />
                 <Link to="/add">
-                    <Button>Add</Button>
+                        <Button>Add</Button>                    
                 </Link>
                 {this.state.loading ? <LoadIndicator /> :
                     <div className="hero-list">
                         {this.state.heroes.map(hero => 
-                            <div className="card" key={hero._id}>
-                                <h2>{hero.name}</h2>
-                                <img src={hero.thumbnail} alt="hero" className="hero-image" onClick={this.toggleHidden}></img> 
-                                {!this.state.isHidden ? <p className="description">{hero.description}</p> : null }
-                                <Link to="/edit">
-                                    <button className="button" id={hero._id} onClick={this.handleClick}>Edit</button>
-                                </Link>
-                            </div>
+                            <Card 
+                                hero={hero} 
+                                toggleHidden={this.toggleHidden} 
+                                isHidden={this.state.isHidden}
+                                handleClick={this.handleClick}
+                            />
                         )}
                     </div>
                 }
-            </div>         
+            </div>  
         )
     }
 }
 
 export default Home 
-
-// can add loading icons and form validation 
