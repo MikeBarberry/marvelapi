@@ -1,2 +1,2 @@
 # Marvel API
-Created when I was learning React. NodeJS, MongoDB and Express on the backend. Anyone can add characters to the list. 
+Created when I learned about the Fetch API. Built with React, NodeJS, MongoDB and Express. Anyone can add characters to the website. 
