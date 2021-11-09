@@ -48,6 +48,7 @@ class Add extends React.Component {
                     <input
                         name="name"
                         type="text"
+                        placeholder="Enter a character's name"
                         onChange={(event) => this.handleUserInput(event)} 
                         value={this.state.name} 
                         required />
@@ -59,6 +60,7 @@ class Add extends React.Component {
                         name="description"
                         type="text"
                         maxLength="120"
+                        placeholder="Enter a character description"
                         onChange={(event) => this.handleUserInput(event)}
                         value={this.state.description} 
                         required />
@@ -68,6 +70,7 @@ class Add extends React.Component {
                     <input
                         name="thumbnail"
                         type="text"
+                        placeholder="Enter the url to an image of the character"
                         onChange={(event) => this.handleUserInput(event)} 
                         value={this.state.thumbnail} 
                         required />
