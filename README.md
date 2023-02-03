@@ -1,2 +1,1 @@
-# Marvel API
-MongoDB, Express.js, React.js, Node.js (MERN) application. Simple create, read, update, delete (CRUD) application to store data about Marvel characters 
+Version 2.0 of Marvel Characters built with [Next.js](https://nextjs.org/) [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). Deployed on AWS Lambda as a Docker image with a custom API Gateway domain.
