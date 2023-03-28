@@ -1,9 +1,16 @@
-FROM public.ecr.aws/lambda/nodejs:18
+FROM public.ecr.aws/lambda/nodejs:18 AS builder 
 WORKDIR ${LAMBDA_TASK_ROOT}
 
-COPY ./ ./
+COPY ./package*.json ./
 
 RUN npm ci --omit=dev 
-RUN NODE_ENV=production npm run build
 
+FROM public.ecr.aws/lambda/nodejs:18 AS runner 
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+COPY --from=builder ${LAMBDA_TASK_ROOT}/package.json ./
+COPY --from=builder ${LAMBDA_TASK_ROOT}/node_modules ./
+COPY . .
+
+RUN NODE_ENV=production npm run build
 CMD ["lambda.handler"]

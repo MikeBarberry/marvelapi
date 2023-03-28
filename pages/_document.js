@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link
           rel='shortcut icon'
-          href='https://marvel-characters-next.s3.us-west-2.amazonaws.com/favicon.ico'
+          href={`${process.env.S3_URL}/favicon.ico`}
         />
       </Head>
       <body>

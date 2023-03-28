@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
-import { apiUri, marvelLogo } from '../lib/utils';
-import timeout from '../lib/timeout';
 import { StyledLoadingButton } from '../styles/styledComponentProvider';
 
 export default function Add() {
@@ -18,47 +17,44 @@ export default function Add() {
   const router = useRouter();
 
   async function handleSubmit() {
-    const characterInfo = {
-      name,
-      description,
-      thumbnail,
-    };
     if (!name || !description || !thumbnail) {
-      setSnackbarMessage('Input fields must not be empty.');
       setIsSnackbarOpen(true);
-      await timeout();
+      setSnackbarMessage('error');
       return;
     }
     try {
       setIsLoading(true);
-      const res = await fetch(`${apiUri}/add`, {
+      await fetch(`/api/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(characterInfo),
+        body: JSON.stringify({
+          name,
+          description,
+          thumbnail,
+        }),
       });
-      const message = await res.json();
-      setSnackbarMessage(message);
-      setIsSnackbarOpen(true);
       setIsLoading(false);
+      setIsSnackbarOpen(true);
+      setSnackbarMessage('success');
       setTimeout(() => {
         router.push('/');
       }, 2000);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
-  function closeSnackbar() {
-    setSnackbarMessage('');
+  function closeSnackbar(event, reason) {
+    if (reason === 'clickaway') return;
     setIsSnackbarOpen(false);
   }
 
   return (
     <div className='Header Main-header'>
       <Image
-        src={marvelLogo}
+        src={'/marvelLogo.jpeg'}
         alt='Marvel Logo'
         width={680}
         height={180}
@@ -81,7 +77,7 @@ export default function Add() {
           Description:
           <input
             type='text'
-            placeholder='Enter a description of this character'
+            placeholder='Enter a description for this character'
             minLength='5'
             maxLength='120'
             onChange={(e) => setDescription(e.target.value)}
@@ -93,7 +89,7 @@ export default function Add() {
           Thumbnail:
           <input
             type='text'
-            placeholder='Enter URL for character image'
+            placeholder='Enter URL to character image'
             minLength='6'
             onChange={(e) => setThumbnail(e.target.value)}
             value={thumbnail}
@@ -109,9 +105,15 @@ export default function Add() {
         <Snackbar
           open={isSnackbarOpen}
           autoHideDuration={2000}
-          message={snackbarMessage}
-          onClose={closeSnackbar}
-        />
+          onClose={closeSnackbar}>
+          <Alert
+            onClose={closeSnackbar}
+            severity={snackbarMessage === 'error' ? 'error' : 'success'}>
+            {snackbarMessage === 'error'
+              ? 'Input fields must not be empty.'
+              : 'Character successfully added!'}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

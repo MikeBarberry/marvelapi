@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-import { apiUri, marvelLogo } from '../lib/utils';
 import { StyledLink } from '../styles/styledComponentProvider';
 import CharacterCard from '../components/CharacterCard';
 import LoadIndicator from '../components/LoadIndicator';
@@ -13,21 +12,21 @@ export default function Home() {
 
   useEffect(() => {
     let isSubscribed = true;
-    if (isSubscribed) {
-      async function fetchData() {
-        const res = await fetch(`${apiUri}/`);
-        const json = await res.json();
-        setCharacters(json);
+    const fetchData = async () => {
+      const res = await fetch('/api/');
+      const json = await res.json();
+      if (isSubscribed) {
         setIsLoading(false);
+        setCharacters(json);
       }
-      fetchData();
-    }
+    };
+    fetchData();
     return () => (isSubscribed = false);
   }, []);
 
-  function toggleHidden() {
+  const toggleHidden = () => {
     setIsHidden((prevState) => !prevState);
-  }
+  };
 
   if (isLoading) {
     return (
@@ -40,7 +39,7 @@ export default function Home() {
   return (
     <div className='Header Main-header'>
       <Image
-        src={marvelLogo}
+        src={'/marvelLogo.jpeg'}
         alt='Marvel Logo'
         width={680}
         height={180}

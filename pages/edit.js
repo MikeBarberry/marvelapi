@@ -3,9 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { StyledLoadingButton } from '../styles/styledComponentProvider';
 import Snackbar from '@mui/material/Snackbar';
-
-import { apiUri, marvelLogo } from '../lib/utils';
-import timeout from '../lib/timeout';
+import Alert from '@mui/material/Alert';
 
 export default function Edit() {
   const [id, setId] = useState('');
@@ -16,7 +14,7 @@ export default function Edit() {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('');
 
   const router = useRouter();
 
@@ -30,72 +28,78 @@ export default function Edit() {
     setNewThumbnail(thumbnail);
   }, []);
 
-  async function handleSubmit() {
-    const updatedCharacterInfo = {
-      id,
-      name,
-      description,
-      newThumbnail,
-    };
+  const handleSubmit = async () => {
     if (!name || !description || !newThumbnail) {
-      setSnackbarMessage('Input fields must not be empty.');
       setIsSnackbarOpen(true);
-      await timeout();
+      setSnackbarType('error');
       return;
     }
     try {
       setIsSubmitLoading(true);
-      const res = await fetch(`${apiUri}/edit`, {
+      await fetch('/api/edit', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedCharacterInfo),
+        body: JSON.stringify({
+          id,
+          name,
+          description,
+          newThumbnail,
+        }),
       });
-      const message = await res.json();
-      setSnackbarMessage(message);
-      setIsSnackbarOpen(true);
       setIsSubmitLoading(false);
+      setIsSnackbarOpen(true);
+      setSnackbarType('edit');
       setTimeout(() => {
         router.push('/');
       }, 2000);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
-  }
+  };
 
-  async function handleDelete() {
-    const characterId = { characterId: id };
+  const handleDelete = async () => {
     try {
       setIsDeleteLoading(true);
-      const res = await fetch(`${apiUri}/delete`, {
+      await fetch('/api/delete', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(characterId),
+        body: JSON.stringify({ characterId: id }),
       });
-      const message = await res.json();
-      setSnackbarMessage(message);
-      setIsSnackbarOpen(true);
       setIsDeleteLoading(false);
+      setIsSnackbarOpen(true);
+      setSnackbarType('delete');
       setTimeout(() => {
         router.push('/');
-      }, 2000);
+      }, 3000);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
-  }
+  };
 
-  function closeSnackbar() {
-    setSnackbarMessage('');
+  const closeSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
     setIsSnackbarOpen(false);
-  }
+  };
+
+  const getMessage = () => {
+    switch (snackbarType) {
+      case 'error':
+        return 'Input fields must not be empty.';
+      case 'edit':
+        return 'Character successfully edited!';
+      case 'delete':
+        return 'Character successfully deleted.';
+    }
+  };
 
   return (
     <div className='Header Main-header'>
       <Image
-        src={marvelLogo}
+        src={'/marvelLogo.jpeg'}
         alt='Marvel Logo'
         width={680}
         height={180}
@@ -147,10 +151,15 @@ export default function Edit() {
         </StyledLoadingButton>
         <Snackbar
           open={isSnackbarOpen}
-          message={snackbarMessage}
+          message={getMessage()}
           onClose={closeSnackbar}
-          autoHideDuration={2000}
-        />
+          autoHideDuration={3000}>
+          <Alert
+            onClose={closeSnackbar}
+            severity={snackbarType === 'error' ? 'error' : 'success'}>
+            {getMessage()}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

@@ -16,8 +16,9 @@ export default async function handler(req, res) {
         thumbnail: newThumbnail,
       },
     };
-    await db.collection('heroes').updateOne(filter, update);
-    res.status(200).json('Character successfully updated');
+    const result = await db.collection('heroes').updateOne(filter, update);
+    console.log(result);
+    res.status(200).end();
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
