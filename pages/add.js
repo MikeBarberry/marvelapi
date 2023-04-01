@@ -1,15 +1,45 @@
-import React, { useState } from 'react';
+import { useState, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 import { StyledLoadingButton } from '../styles/styledComponentProvider';
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'setName': {
+      return {
+        ...state,
+        name: action.name,
+      };
+    }
+    case 'setThumbnail': {
+      return {
+        ...state,
+        thumbnail: action.thumbnail,
+      };
+    }
+    case 'setDescription': {
+      return {
+        ...state,
+        description: action.description,
+      };
+    }
+  }
+  throw Error('Unknown action: ' + action.type);
+};
+
+const initialState = {
+  name: '',
+  thumbnail: '',
+  description: '',
+};
+
 export default function Add() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [thumbnail, setThumbnail] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -17,7 +47,7 @@ export default function Add() {
   const router = useRouter();
 
   async function handleSubmit() {
-    if (!name || !description || !thumbnail) {
+    if (!state.name || !state.description || !state.thumbnail) {
       setIsSnackbarOpen(true);
       setSnackbarMessage('error');
       return;
@@ -30,9 +60,9 @@ export default function Add() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
-          description,
-          thumbnail,
+          name: state.name,
+          description: state.description,
+          thumbnail: state.thumbnail,
         }),
       });
       setIsLoading(false);
@@ -67,8 +97,10 @@ export default function Add() {
             placeholder='Enter character name'
             minLength='3'
             maxLength='16'
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            onChange={(e) =>
+              dispatch({ type: 'setName', name: e.target.value })
+            }
+            value={state.name}
             required
           />
         </label>
@@ -80,8 +112,10 @@ export default function Add() {
             placeholder='Enter a description for this character'
             minLength='5'
             maxLength='120'
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            onChange={(e) =>
+              dispatch({ type: 'setDescription', description: e.target.value })
+            }
+            value={state.description}
             required
           />
         </label>
@@ -91,8 +125,10 @@ export default function Add() {
             type='text'
             placeholder='Enter URL to character image'
             minLength='6'
-            onChange={(e) => setThumbnail(e.target.value)}
-            value={thumbnail}
+            onChange={(e) =>
+              dispatch({ type: 'setThumbnail', thumbnail: e.target.value })
+            }
+            value={state.thumbnail}
             required
           />
         </label>

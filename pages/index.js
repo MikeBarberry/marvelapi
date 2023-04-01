@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
+import { ObjectId } from 'mongodb';
+
+import clientPromise from '../lib/mongodb';
 
 import { StyledLink } from '../styles/styledComponentProvider';
 import CharacterCard from '../components/CharacterCard';
-import LoadIndicator from '../components/LoadIndicator';
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isHidden, setIsHidden] = useState(true);
-  const [characters, setCharacters] = useState([]);
+export async function getServerSideProps() {
+  const client = await clientPromise;
+  const db = client.db('marvel-api');
+  const response = await db.collection('heroes').find({}).toArray();
 
-  useEffect(() => {
-    let isSubscribed = true;
-    const fetchData = async () => {
-      const res = await fetch('/api/');
-      const json = await res.json();
-      if (isSubscribed) {
-        setIsLoading(false);
-        setCharacters(json);
-      }
+  for (let idx = 0; idx < response.length; idx++) {
+    const character = response[idx];
+    response[idx] = {
+      _id: ObjectId(character._id).toString(),
+      name: character.name,
+      description: character.description,
+      thumbnail: character.thumbnail,
     };
-    fetchData();
-    return () => (isSubscribed = false);
-  }, []);
+  }
+
+  return {
+    props: {
+      characters: response,
+    },
+  };
+}
+
+export default function Home({ characters }) {
+  const [isHidden, setIsHidden] = useState(true);
 
   const toggleHidden = () => {
     setIsHidden((prevState) => !prevState);
   };
-
-  if (isLoading) {
-    return (
-      <div className='Header Main-header'>
-        <LoadIndicator />
-      </div>
-    );
-  }
 
   return (
     <div className='Header Main-header'>

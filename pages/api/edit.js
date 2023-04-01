@@ -1,9 +1,10 @@
 import { ObjectId } from 'mongodb';
+
 import clientPromise from '../../lib/mongodb';
 
 export default async function handler(req, res) {
   const characterInfo = req.body;
-  const { id, name, description, newThumbnail } = characterInfo;
+  const { id, name, description, thumbnail } = characterInfo;
 
   try {
     const client = await clientPromise;
@@ -13,11 +14,10 @@ export default async function handler(req, res) {
       $set: {
         name,
         description,
-        thumbnail: newThumbnail,
+        thumbnail,
       },
     };
-    const result = await db.collection('heroes').updateOne(filter, update);
-    console.log(result);
+    await db.collection('heroes').updateOne(filter, update);
     res.status(200).end();
   } catch (err) {
     console.error(err);

@@ -1,16 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { StyledLoadingButton } from '../styles/styledComponentProvider';
+
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
+import { StyledLoadingButton } from '../styles/styledComponentProvider';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'setCharacter': {
+      return {
+        ...state,
+        ...action.initialVersion,
+      };
+    }
+    case 'updateName': {
+      return {
+        ...state,
+        name: action.name,
+      };
+    }
+    case 'updateThumbnail': {
+      return {
+        ...state,
+        thumbnail: action.thumbnail,
+      };
+    }
+    case 'updateDescription': {
+      return {
+        ...state,
+        description: action.description,
+      };
+    }
+  }
+  throw Error('Unknown action: ' + action.type);
+};
+
+const initialState = {
+  id: '',
+  originalThumbnail: '',
+  name: '',
+  thumbnail: '',
+  description: '',
+};
+
 export default function Edit() {
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [originalThumbnail, setOriginalThumbnail] = useState('');
-  const [newThumbnail, setNewThumbnail] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
@@ -21,15 +58,20 @@ export default function Edit() {
   useEffect(() => {
     const characterInfo = JSON.parse(localStorage.getItem('characterInfo'));
     const { _id, name, description, thumbnail } = characterInfo;
-    setId(_id);
-    setName(name);
-    setDescription(description);
-    setOriginalThumbnail(thumbnail);
-    setNewThumbnail(thumbnail);
+    dispatch({
+      type: 'setCharacter',
+      initialVersion: {
+        id: _id,
+        originalThumbnail: thumbnail,
+        name,
+        description,
+        thumbnail,
+      },
+    });
   }, []);
 
   const handleSubmit = async () => {
-    if (!name || !description || !newThumbnail) {
+    if (!state.name || !state.description || !state.thumbnail) {
       setIsSnackbarOpen(true);
       setSnackbarType('error');
       return;
@@ -42,10 +84,10 @@ export default function Edit() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id,
-          name,
-          description,
-          newThumbnail,
+          id: state.id,
+          name: state.name,
+          description: state.description,
+          thumbnail: state.thumbnail,
         }),
       });
       setIsSubmitLoading(false);
@@ -67,7 +109,7 @@ export default function Edit() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ characterId: id }),
+        body: JSON.stringify({ characterId: state.id }),
       });
       setIsDeleteLoading(false);
       setIsSnackbarOpen(true);
@@ -106,14 +148,16 @@ export default function Edit() {
       />
       <div
         className='edit-container'
-        style={{ backgroundImage: `url(${originalThumbnail})` }}>
+        style={{ backgroundImage: `url(${state.originalThumbnail})` }}>
         <br />
         <label>
           Name:
           <input
             type='text'
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            onChange={(e) =>
+              dispatch({ type: 'updateName', name: e.target.value })
+            }
+            value={state.name}
             required
           />
         </label>
@@ -123,8 +167,13 @@ export default function Edit() {
           <input
             type='text'
             maxLength='120'
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            onChange={(e) =>
+              dispatch({
+                type: 'updateDescription',
+                description: e.target.value,
+              })
+            }
+            value={state.description}
             required
           />
         </label>
@@ -133,8 +182,10 @@ export default function Edit() {
           <input
             type='text'
             placeholder='Enter URL to character image'
-            onChange={(e) => setNewThumbnail(e.target.value)}
-            value={newThumbnail}
+            onChange={(e) =>
+              dispatch({ type: 'updateThumbnail', thumbnail: e.target.value })
+            }
+            value={state.thumbnail}
             required
           />
         </label>

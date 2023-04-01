@@ -2,7 +2,6 @@ import clientPromise from '../../lib/mongodb';
 
 export default async function handler(req, res) {
   const newCharacter = req.body;
-
   try {
     const client = await clientPromise;
     const db = client.db('marvel-api');
