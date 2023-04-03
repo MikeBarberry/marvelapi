@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import clientPromise from '../lib/mongodb';
+import clientPromise from '../../lib/mongodb';
 
 export default async function handler(req, res) {
   try {
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       };
     }
 
-    res.status(200).end(response);
+    res.status(200).end(JSON.stringify(response));
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
