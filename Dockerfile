@@ -1,16 +1,24 @@
-FROM public.ecr.aws/lambda/nodejs:18 AS builder 
-WORKDIR ${LAMBDA_TASK_ROOT}
+FROM amazon/aws-lambda-nodejs:18 AS builder
 
-COPY package*.json ./
+WORKDIR /var/task
 
-RUN npm ci --omit=dev
+COPY ./package*.json ./
+COPY ./utils ./
 
-FROM public.ecr.aws/lambda/nodejs:18 AS runner 
-WORKDIR ${LAMBDA_TASK_ROOT}
+RUN corepack enable
+RUN pnpm install --prod
+RUN pnpm install sharp
 
-COPY --from=builder ${LAMBDA_TASK_ROOT}/package.json ./
-COPY --from=builder ${LAMBDA_TASK_ROOT}/node_modules ./
-COPY . .
 
-RUN NODE_ENV=production npm run build
+FROM amazon/aws-lambda-nodejs:18 AS runner
+
+WORKDIR /var/task
+
+COPY --from=builder /var/task/package.json ./package.json
+COPY --from=builder /var/task/node_modules ./node_modules
+
+COPY ./ ./ 
+
+ENV NODE_ENV=production
+RUN pnpm run build
 CMD ["lambda.handler"]

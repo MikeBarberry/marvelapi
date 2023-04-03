@@ -12,3 +12,5 @@ events
 README.md
 samconfig.toml
 template.yaml
+config.js
+utils
