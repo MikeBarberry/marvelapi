@@ -3,5 +3,5 @@ version = 0.1
 [dev.deploy.parameters]
 stack_name = "marvel-characters"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = ["BuildId=23"]
+parameter_overrides = ["BuildId=28"]
 

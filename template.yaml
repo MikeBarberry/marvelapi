@@ -66,8 +66,4 @@ Resources:
 Outputs:
   MarvelCharactersNextApi:
     Description: 'API Gateway endpoint URL'
-    Value:
-      Fn::Join:
-        - ''
-        - - 'https://'
-          - Fn::GetAtt: [MarvelCharactersNextApi, DomainName]
+    Value: 'https://marvel-characters.link'

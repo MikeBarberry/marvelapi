@@ -1,7 +1,7 @@
 module.exports = {
   dev: {
     awsRegion: 'us-west-2',
-    awsProfile: 'default',
+    awsProfile: 'admin',
     ecrId: '095138843627',
     ecrRepo: 'marvel-characters',
   },

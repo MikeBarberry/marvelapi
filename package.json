@@ -7,12 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dockerDev": "CONFIG_ENV=dev npm run docker",
-    "docker": "npm run dockerLogin && npm run dockerBuild && npm run dockerPush",
-    "sam": "CONFIG_ENV=dev npm run samBuild && npm run samDeploy",
-    "dockerLogin": "set-env dockerLogin",
-    "dockerBuild": "set-env dockerBuild",
-    "dockerPush": "set-env dockerPush",
     "samBuild": "set-env samBuild",
     "samDeploy": "set-env samDeploy"
   },
@@ -30,10 +24,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-loader-spinner": "^5.3.4",
+    "set-env": "file:utils/set-env-1.1.tgz",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
-    "eslint": "^8.30.0",
-    "set-env": "./utils/set-env-1.1.tgz"
+    "eslint": "^8.30.0"
   }
 }

@@ -3,11 +3,10 @@ FROM amazon/aws-lambda-nodejs:18 AS builder
 WORKDIR /var/task
 
 COPY ./package*.json ./
-COPY ./utils ./
+COPY ./utils ./utils
 
-RUN corepack enable
-RUN pnpm install --prod
-RUN pnpm install sharp
+RUN npm install --omit=dev
+RUN npm install sharp
 
 
 FROM amazon/aws-lambda-nodejs:18 AS runner
@@ -20,5 +19,5 @@ COPY --from=builder /var/task/node_modules ./node_modules
 COPY ./ ./ 
 
 ENV NODE_ENV=production
-RUN pnpm run build
+RUN npm run build
 CMD ["lambda.handler"]
