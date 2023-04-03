@@ -2,6 +2,9 @@ version = 0.1
 
 [dev.deploy.parameters]
 stack_name = "marvel-characters"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-hnxkfbkczf4f"
+s3_prefix = "marvel-characters"
+image_repository = "095138843627.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters04b4a9a6/marvelcharactersnextfunctione1cf85b5repo"
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = ["BuildId=28"]
 

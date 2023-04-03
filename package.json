@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "samBuild": "set-env samBuild",
-    "samDeploy": "set-env samDeploy"
+    "samBuild": "CONFIG_ENV=dev set-env samBuild",
+    "samDeploy": "CONFIG_ENV=dev set-env samDeploy"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
