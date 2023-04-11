@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "samBuild": "CONFIG_ENV=dev set-env samBuild",
+    "docker:build": "set-env -e -u -- 'docker build -t $ECR_ID.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters04b4a9a6/marvelcharactersnextfunctione1cf85b5repo:$BUILD_ID .'",
     "samDeploy": "CONFIG_ENV=dev set-env samDeploy"
   },
   "dependencies": {
@@ -24,7 +24,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-loader-spinner": "^5.3.4",
-    "set-env": "file:utils/set-env-1.1.tgz",
+    "set-env": "file:utils/set-env-1.2.tgz",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
