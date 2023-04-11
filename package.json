@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "docker:build": "set-env -e -u -- 'docker build -t $ECR_ID.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters04b4a9a6/marvelcharactersnextfunctione1cf85b5repo:$BUILD_ID .'",
-    "samDeploy": "CONFIG_ENV=dev set-env samDeploy"
+    "docker:build": "set-env -e -u -- 'docker build -t $ECR_ID.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters04b4a9a6/marvelcharactersnextfunctione1cf85b5repo:$BUILD_ID .'"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
