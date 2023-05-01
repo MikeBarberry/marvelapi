@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link
           rel='shortcut icon'
-          href={`${process.env.S3_URL}/favicon.ico`}
+          href='/favicon.ico'
         />
       </Head>
       <body>

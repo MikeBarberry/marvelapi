@@ -18,6 +18,8 @@ Parameters:
     Type: String
   MongoDBURI:
     Type: String
+  BuildID:
+    Type: String
 
 Resources:
   MarvelCharactersNextApi:
@@ -45,6 +47,7 @@ Resources:
       DockerContext: .
       Dockerfile: Dockerfile
     Properties:
+      FunctionName: MarvelCharacters
       Environment:
         Variables:
           NODE_ENV: production
@@ -52,7 +55,7 @@ Resources:
             Ref: MongoDBURI
       PackageType: Image
       ImageUri:
-        Ref: ImageRepo
+        Fn::Sub: ${ImageRepo}:${BuildID}
       Architectures:
         - x86_64
       Events:
