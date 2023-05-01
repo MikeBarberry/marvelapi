@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: SAM Template for Marvel Characters Next Project
+Description: Marvel Characters SAM Template
 
 Globals:
   Function:
@@ -14,13 +14,17 @@ Parameters:
   HostedZoneId:
     Type: String
     Default: '{{resolve:ssm:HostedZoneId:1}}'
+  ImageRepo:
+    Type: String
+  MongoDBURI:
+    Type: String
 
 Resources:
   MarvelCharactersNextApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: Marvel-Characters-Api
-      Description: API for Marvel Characters
+      Name: Marvel-Characters-API
+      Description: Gateway for Marvel Characters Site
       StageName: main
       EndpointConfiguration: REGIONAL
       BinaryMediaTypes:
@@ -44,7 +48,11 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
+          MONGODB_URI:
+            Ref: MongoDBURI
       PackageType: Image
+      ImageUri:
+        Ref: ImageRepo
       Architectures:
         - x86_64
       Events:

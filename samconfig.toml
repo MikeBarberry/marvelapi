@@ -1,8 +1,0 @@
-version = 0.1
-
-[dev.deploy.parameters]
-stack_name = "marvel-characters"
-region = "us-west-2"
-capabilities = "CAPABILITY_IAM"
-parameter_overrides = ["BuildID=29","ImageRepo=095138843627.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters04b4a9a6/marvelcharactersnextfunctione1cf85b5repo"]
-
