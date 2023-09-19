@@ -2,7 +2,7 @@
   "name": "marvelcharacters-next",
   "version": "2.0",
   "author": "Mike Barberry",
-  "private": true,
+  "license": "GPL-3.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
