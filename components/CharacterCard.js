@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Box from '@mui/material/Box';
 
 const characterImageStyle = {
   justifySelf: 'center',
@@ -29,18 +29,10 @@ function CharacterImage({ thumbnail, name, toggleHidden }) {
 
 export default function CharacterCard({ character, isHidden, toggleHidden }) {
   const { _id, name, thumbnail, description } = character;
-  const [editButtonClicked, setEditButtonClicked] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    localStorage.setItem(
-      'characterInfo',
-      JSON.stringify({ _id, name, thumbnail, description })
-    );
-  }, [editButtonClicked]);
-
   return (
-    <div
+    <Box
       className='card'
       key={_id}>
       <h2>{name}</h2>
@@ -53,11 +45,14 @@ export default function CharacterCard({ character, isHidden, toggleHidden }) {
       <button
         className='button'
         onClick={() => {
-          setEditButtonClicked(true);
+          localStorage.setItem(
+            'characterInfo',
+            JSON.stringify({ _id, name, thumbnail, description })
+          );
           router.push('/edit');
         }}>
         Edit
       </button>
-    </div>
+    </Box>
   );
 }

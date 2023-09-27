@@ -85,8 +85,11 @@ input[type='submit']:hover {
   color: white;
 }
 
-.hero-list add-list {
+.hero-list {
   margin: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .hero-image-wrapper:hover {
@@ -99,8 +102,10 @@ input[type='submit']:hover {
   border: grey solid 1px;
   padding: 1rem;
   width: 400px;
-  height: 415px;
-  display: inline-grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 1rem 2rem;
   opacity: 0.9;
   box-shadow: 3px 4px #e04b52;
@@ -109,6 +114,7 @@ input[type='submit']:hover {
 .card h2 {
   max-width: 400px;
   max-height: 50;
+  flex-shrink: 1;
 }
 
 .description {
