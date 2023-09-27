@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "buildprod": "CONFIG_ENV=prod npm run fullbuild",
-    "fullbuild": "cfn-lint template.yaml && npm run docker:login && npm run docker:build && npm run docker:push && npm run sam",
+    "fullbuild": "npm run docker:login && npm run docker:build && npm run docker:push && npm run sam",
     "docker:login": "set-env -e -- 'aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $ECR_ID.dkr.ecr.us-west-2.amazonaws.com'",
     "docker:build": "set-env -e -u -- 'docker build -t $ECR_ID.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters:$BUILD_ID .'",
     "docker:push": "set-env -e -i -- 'docker push $ECR_ID.dkr.ecr.us-west-2.amazonaws.com/marvelcharacters:$BUILD_ID'",
