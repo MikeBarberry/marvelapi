@@ -23,7 +23,7 @@ const createServer = () => {
   router.use(express.urlencoded({ extended: true }));
   router.use(express.text());
   router.use(express.json());
-  router.use('/_next', express.static(path.join(__dirname, '/.next')));
+  router.use('/_next', express.static(path.join(__dirname, '.next')));
 
   router.get('/example', async (req, res) => {
     res.send('Success');

@@ -10,10 +10,8 @@ Globals:
 Parameters:
   CertificateArn:
     Type: String
-    Default: '{{resolve:ssm:CertificateArn:1}}'
   HostedZoneId:
     Type: String
-    Default: '{{resolve:ssm:HostedZoneId:1}}'
   ImageRepo:
     Type: String
   MongoDBURI:
@@ -32,7 +30,7 @@ Resources:
       BinaryMediaTypes:
         - '*'
       Domain:
-        DomainName: marvel-characters.link
+        DomainName: marvel.mikebarberry.com
         CertificateArn:
           Ref: CertificateArn
         EndpointConfiguration: REGIONAL
@@ -77,4 +75,4 @@ Resources:
 Outputs:
   MarvelCharactersNextApi:
     Description: 'API Gateway endpoint URL'
-    Value: 'https://marvel-characters.link'
+    Value: 'https://marvel.mikebarberry.com'

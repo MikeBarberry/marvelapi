@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
 
 const characterImageStyle = {
@@ -16,7 +15,7 @@ function CharacterImage({ thumbnail, name, toggleHidden }) {
     <div
       onClick={toggleHidden}
       className='hero-image-wrapper'>
-      <Image
+      <img
         src={thumbnail}
         alt={name}
         width={250}

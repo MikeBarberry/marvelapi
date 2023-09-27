@@ -1,11 +1,10 @@
 import { useReducer } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 import { StyledLoadingButton } from '../styles/styledComponentProvider';
+import { API_URL, IMAGE_BUCKET } from '../lib/api';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -70,7 +69,7 @@ export default function Add() {
     }
     try {
       dispatch({ type: 'setIsLoading', isLoading: true });
-      await fetch(`/api/add`, {
+      await fetch(`${API_URL}/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,8 +98,8 @@ export default function Add() {
 
   return (
     <div className='Header Main-header'>
-      <Image
-        src={'/marvelLogo.jpeg'}
+      <img
+        src={`${IMAGE_BUCKET}/marvelLogo.jpeg`}
         alt='Marvel Logo'
         width={680}
         height={180}

@@ -18,6 +18,7 @@ COPY --from=builder /var/task/node_modules ./node_modules
 
 COPY ./ ./ 
 
+
 ENV NODE_ENV=production
 RUN npm run build
 CMD ["lambda.handler"]

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 
 import { StyledLink } from '../styles/styledComponentProvider';
 import CharacterCard from '../components/CharacterCard';
-
 import LoadIndicator from '../components/LoadIndicator';
+import { API_URL, IMAGE_BUCKET } from '../lib/api';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     let isSubscribed = true;
     const fetchData = async () => {
-      const res = await fetch('/api/');
+      const res = await fetch(`${API_URL}/`);
       const json = await res.json();
       if (isSubscribed) {
         setIsLoading(false);
@@ -39,8 +38,8 @@ export default function Home() {
 
   return (
     <div className='Header Main-header'>
-      <Image
-        src={'/marvelLogo.jpeg'}
+      <img
+        src={`${IMAGE_BUCKET}/marvelLogo.jpeg`}
         alt='Marvel Logo'
         width={680}
         height={180}
