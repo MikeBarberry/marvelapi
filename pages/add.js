@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useReducer } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -27,6 +27,24 @@ const reducer = (state, action) => {
         description: action.description,
       };
     }
+    case 'setIsLoading': {
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+    }
+    case 'setIsSnackbarOpen': {
+      return {
+        ...state,
+        isSnackbarOpen: action.isSnackbarOpen,
+      };
+    }
+    case 'setSnackbarMessage': {
+      return {
+        ...state,
+        snackbarMessage: action.snackbarMessage,
+      };
+    }
   }
   throw Error('Unknown action: ' + action.type);
 };
@@ -35,25 +53,23 @@ const initialState = {
   name: '',
   thumbnail: '',
   description: '',
+  isLoading: false,
+  isSnackbarOpen: false,
+  snackbarMessage: '',
 };
 
 export default function Add() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-
   const router = useRouter();
 
   async function handleSubmit() {
     if (!state.name || !state.description || !state.thumbnail) {
-      setIsSnackbarOpen(true);
-      setSnackbarMessage('error');
+      dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: true });
+      dispatch({ type: 'setSnackbarMessage', snackbarMessage: 'error' });
       return;
     }
     try {
-      setIsLoading(true);
+      dispatch({ type: 'setIsLoading', isLoading: true });
       await fetch(`/api/add`, {
         method: 'POST',
         headers: {
@@ -65,9 +81,9 @@ export default function Add() {
           thumbnail: state.thumbnail,
         }),
       });
-      setIsLoading(false);
-      setIsSnackbarOpen(true);
-      setSnackbarMessage('success');
+      dispatch({ type: 'setIsLoading', isLoading: false });
+      dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: true });
+      dispatch({ type: 'setSnackbarMessage', snackbarMessage: 'success' });
       setTimeout(() => {
         router.push('/');
       }, 2000);
@@ -78,7 +94,7 @@ export default function Add() {
 
   function closeSnackbar(event, reason) {
     if (reason === 'clickaway') return;
-    setIsSnackbarOpen(false);
+    dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: false });
   }
 
   return (
@@ -134,18 +150,18 @@ export default function Add() {
         </label>
         <StyledLoadingButton
           color='primary'
-          loading={isLoading}
+          loading={state.isLoading}
           onClick={handleSubmit}>
           Submit
         </StyledLoadingButton>
         <Snackbar
-          open={isSnackbarOpen}
+          open={state.isSnackbarOpen}
           autoHideDuration={2000}
           onClose={closeSnackbar}>
           <Alert
             onClose={closeSnackbar}
-            severity={snackbarMessage === 'error' ? 'error' : 'success'}>
-            {snackbarMessage === 'error'
+            severity={state.snackbarMessage === 'error' ? 'error' : 'success'}>
+            {state.snackbarMessage === 'error'
               ? 'Input fields must not be empty.'
               : 'Character successfully added!'}
           </Alert>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -33,6 +33,30 @@ const reducer = (state, action) => {
         description: action.description,
       };
     }
+    case 'setIsSubmitLoading': {
+      return {
+        ...state,
+        isSubmitLoading: action.isSubmitLoading,
+      };
+    }
+    case 'setIsDeleteLoading': {
+      return {
+        ...state,
+        isDeleteLoading: action.isDeleteLoading,
+      };
+    }
+    case 'setIsSnackbarOpen': {
+      return {
+        ...state,
+        isSnackbarOpen: action.isSnackbarOpen,
+      };
+    }
+    case 'setSnackbarType': {
+      return {
+        ...state,
+        snackbarType: action.snackbarType,
+      };
+    }
   }
   throw Error('Unknown action: ' + action.type);
 };
@@ -43,16 +67,14 @@ const initialState = {
   name: '',
   thumbnail: '',
   description: '',
+  isSubmitLoading: false,
+  isDeleteLoading: false,
+  isSnackbarOpen: false,
+  snackbarType: '',
 };
 
 export default function Edit() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [snackbarType, setSnackbarType] = useState('');
-
   const router = useRouter();
 
   useEffect(() => {
@@ -72,12 +94,12 @@ export default function Edit() {
 
   const handleSubmit = async () => {
     if (!state.name || !state.description || !state.thumbnail) {
-      setIsSnackbarOpen(true);
-      setSnackbarType('error');
+      dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: true });
+      dispatch({ type: 'setSnackbarType', snackbarType: 'error' });
       return;
     }
     try {
-      setIsSubmitLoading(true);
+      dispatch({ type: 'setIsSubmitLoading', isSubmitLoading: true });
       await fetch('/api/edit', {
         method: 'PUT',
         headers: {
@@ -90,9 +112,9 @@ export default function Edit() {
           thumbnail: state.thumbnail,
         }),
       });
-      setIsSubmitLoading(false);
-      setIsSnackbarOpen(true);
-      setSnackbarType('edit');
+      dispatch({ type: 'setIsSubmitLoading', isSubmitLoading: false });
+      dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: true });
+      dispatch({ type: 'setSnackbarType', snackbarType: 'edit' });
       setTimeout(() => {
         router.push('/');
       }, 2000);
@@ -103,7 +125,7 @@ export default function Edit() {
 
   const handleDelete = async () => {
     try {
-      setIsDeleteLoading(true);
+      dispatch({ type: 'setIsDeleteLoading', isDeleteLoading: true });
       await fetch('/api/delete', {
         method: 'DELETE',
         headers: {
@@ -111,9 +133,9 @@ export default function Edit() {
         },
         body: JSON.stringify({ characterId: state.id }),
       });
-      setIsDeleteLoading(false);
-      setIsSnackbarOpen(true);
-      setSnackbarType('delete');
+      dispatch({ type: 'setIsDeleteLoading', isDeleteLoading: false });
+      dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: true });
+      dispatch({ type: 'setSnackbarType', snackbarType: 'delete' });
       setTimeout(() => {
         router.push('/');
       }, 3000);
@@ -124,11 +146,11 @@ export default function Edit() {
 
   const closeSnackbar = (event, reason) => {
     if (reason === 'clickaway') return;
-    setIsSnackbarOpen(false);
+    dispatch({ type: 'setIsSnackbarOpen', isSnackbarOpen: false });
   };
 
   const getMessage = () => {
-    switch (snackbarType) {
+    switch (state.snackbarType) {
       case 'error':
         return 'Input fields must not be empty.';
       case 'edit':
@@ -190,24 +212,24 @@ export default function Edit() {
           />
         </label>
         <StyledLoadingButton
-          loading={isSubmitLoading}
+          loading={state.isSubmitLoading}
           onClick={handleSubmit}>
           Submit
         </StyledLoadingButton>
         <br />
         <StyledLoadingButton
-          loading={isDeleteLoading}
+          loading={state.isDeleteLoading}
           onClick={handleDelete}>
           Delete
         </StyledLoadingButton>
         <Snackbar
-          open={isSnackbarOpen}
+          open={state.isSnackbarOpen}
           message={getMessage()}
           onClose={closeSnackbar}
           autoHideDuration={3000}>
           <Alert
             onClose={closeSnackbar}
-            severity={snackbarType === 'error' ? 'error' : 'success'}>
+            severity={state.snackbarType === 'error' ? 'error' : 'success'}>
             {getMessage()}
           </Alert>
         </Snackbar>
