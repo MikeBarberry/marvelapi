@@ -1,0 +1,196 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+img {
+  cursor: pointer;
+}
+
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+input[type='text'] {
+  width: 96%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: antiquewhite;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type='url'] {
+  width: 96%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: antiquewhite;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type='submit'] {
+  background-color: #404040;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+button[type='submit'] {
+  background-color: #404040;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+input[type='submit']:hover {
+  opacity: 1;
+}
+
+.Header {
+  text-align: center;
+}
+
+.Main-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.hero-list {
+  margin: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.hero-image-wrapper:hover {
+  opacity: 0.8;
+  transform: scale(1.2);
+}
+
+.card {
+  text-align: center;
+  border: grey solid 1px;
+  padding: 1rem;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 2rem;
+  opacity: 0.9;
+  box-shadow: 3px 4px #e04b52;
+}
+
+.card h2 {
+  max-width: 400px;
+  max-height: 50;
+  flex-shrink: 1;
+}
+
+.description {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+  justify-content: center;
+  color: grey;
+  opacity: 0.7;
+  display: inline;
+}
+
+.button {
+  width: 7rem;
+  height: 2rem;
+  justify-self: center;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.button:hover {
+  font-weight: 600;
+}
+
+.add-container {
+  background-image: url('https://mikesoftwareengineeringtestbucket.s3.us-west-2.amazonaws.com/addPageBackground.jpeg');
+  min-height: 700px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.edit-container {
+  min-height: 700px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  min-width: 680px;
+  max-width: 750px;
+}
+
+.edit-button {
+  background-color: #404040;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  opacity: 0.9;
+  width: auto;
+  height: auto;
+}
+
+.edit-button:hover {
+  opacity: 1;
+}
+
+.clearButton {
+  float: right;
+  background: rgba(235, 47, 150, 0.5);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.clearButton:hover {
+  cursor: pointer;
+}
+
+.loader {
+  width: '100%';
+  height: '100';
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+}

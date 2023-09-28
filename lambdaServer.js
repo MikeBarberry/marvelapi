@@ -1,7 +1,7 @@
 const path = require('path');
 
 const NextServer = require('next/dist/server/next-server').default;
-const { config } = require('./.next/required-server-files.json');
+const { config } = require('./frontend/.next/required-server-files.json');
 const express = require('express');
 
 const server = new NextServer({

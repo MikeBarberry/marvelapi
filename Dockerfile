@@ -1,3 +1,5 @@
+# To Do: Update Dockerfile for app folder change
+
 FROM amazon/aws-lambda-nodejs:18 AS builder
 
 WORKDIR /var/task
@@ -20,5 +22,5 @@ COPY ./ ./
 
 
 ENV NODE_ENV=production
-RUN npm run build
+RUN npm run build --prefix app
 CMD ["lambda.handler"]

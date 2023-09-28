@@ -30,7 +30,7 @@ Resources:
       BinaryMediaTypes:
         - '*'
       Domain:
-        DomainName: marvel.mikebarberry.com
+        DomainName: marvelcharacters.mikebarberry.com
         CertificateArn:
           Ref: CertificateArn
         EndpointConfiguration: REGIONAL
