@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }) {
           <Box
             component='a'
             sx={{ textDecoration: 'none', color: 'white', fontSize: '22px' }}
-            href='https://github.com/MikeBarberry'
+            href='https://github.com/mbarberry'
             target='_blank'>
             Mike Barberry
           </Box>
